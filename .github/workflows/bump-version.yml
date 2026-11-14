@@ -1,0 +1,26 @@
+# Release: after a merge to main, let commitizen compute the next version
+# from the commit messages, update CHANGELOG.md, commit and tag it.
+name: Bump version
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # needed to push the bump commit and tag
+
+jobs:
+  bump-version:
+    name: Bump version and changelog
+    # Skip the bump commit itself, otherwise this workflow would loop forever
+    if: ${{ !startsWith(github.event.head_commit.message, 'bump:') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # commitizen reads the tag history
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: commitizen-tools/commitizen-action@0.27.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          changelog_increment_filename: body.md

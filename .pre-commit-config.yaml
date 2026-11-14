@@ -1,8 +1,9 @@
 repos:
-- hooks:
-  - id: commitizen
-  - id: commitizen-branch
-    stages:
-    - push
-  repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.40.0
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.19.3
+    hooks:
+      # Validates the message on every `git commit`
+      - id: commitizen
+      # Validates all commits on the branch before `git push`
+      - id: commitizen-branch
+        stages: [pre-push]
