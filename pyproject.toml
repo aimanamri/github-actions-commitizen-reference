@@ -1,4 +1,9 @@
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "2.0.1"
-tag_format = "$version"
+tag_format = "$version"              # tags look like 2.0.1 (no "v" prefix); keep in sync with existing tags
+update_changelog_on_bump = true      # `cz bump` also regenerates CHANGELOG.md
+major_version_zero = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
